@@ -24,5 +24,18 @@ describe('API tests', () => {
       expect(response.body.title).to.not.be.empty;
       expect(response.body.body).to.not.be.empty;
     });   
+
+    // Step 3
+    // Send GET request to get post with id=150 (/posts/150)
+    cy.request({
+      method: 'GET',
+      url: 'https://jsonplaceholder.typicode.com/posts/150',
+      failOnStatusCode: false
+    }).then(response => {
+      // Status code is 404
+      expect(response.status).to.eq(404);
+      // Response body is empty
+      expect(response.body).to.be.empty;
+    });
   });
 });
