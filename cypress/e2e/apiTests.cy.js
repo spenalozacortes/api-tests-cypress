@@ -1,3 +1,7 @@
+/// <reference types = "Cypress" />
+
+import { utils } from "../support/utils";
+
 describe('API tests', () => {
   it('passes', () => {
     // Step 1
@@ -36,6 +40,24 @@ describe('API tests', () => {
       expect(response.status).to.eq(404);
       // Response body is empty
       expect(response.body).to.be.empty;
+    });
+
+    // Step 4
+    // Send POST request to create post with userId=1 and random body and random title (/posts)
+    const randomTitle = utils.generateRandomString(10);
+    const randomBody = utils.generateRandomString(100);
+    cy.request('POST', 'https://jsonplaceholder.typicode.com/posts', {
+      title: randomTitle,
+      body: randomBody,
+      userId: 1
+    }).then(response => {
+      // Status code is 201
+      expect(response.status).to.eq(201);
+      // Post information is correct: title, body, userId match data from request, id is present in response
+      expect(response.body.title).to.eq(randomTitle);
+      expect(response.body.body).to.eq(randomBody);
+      expect(response.body.userId).to.eq(1);
+      expect(response.body).to.have.property('id');
     });
   });
 });
