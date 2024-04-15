@@ -1,6 +1,7 @@
 /// <reference types = "Cypress" />
 
 import { utils } from "../support/utils";
+import expectedUser from "../fixtures/apiResponseUser5.json";
 
 describe('API tests', () => {
   it('passes', () => {
@@ -58,6 +59,18 @@ describe('API tests', () => {
       expect(response.body.body).to.eq(randomBody);
       expect(response.body.userId).to.eq(1);
       expect(response.body).to.have.property('id');
+    });
+
+    // Step 5
+    // Send GET request to get users (/users)
+    cy.request('GET', 'https://jsonplaceholder.typicode.com/users').then(response => {
+      // Status code is 200
+      expect(response.status).to.eq(200);
+      // The list in response body is JSON
+      expect(response.headers['content-type']).to.include('application/json');
+      // User (id=5) equals to data
+      const actualUser = response.body.filter(user => user.id === 5);
+      expect(actualUser).to.deep.eq(expectedUser);
     });
   });
 });
