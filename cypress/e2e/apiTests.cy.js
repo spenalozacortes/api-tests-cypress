@@ -7,7 +7,7 @@ describe('API tests', () => {
   it('passes', () => {
     // Step 1
     // Send GET request to get all posts (/posts)
-    cy.request('GET', 'https://jsonplaceholder.typicode.com/posts').then(response => {
+    cy.request('GET', '/posts').then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // The list in response body is JSON
@@ -20,7 +20,7 @@ describe('API tests', () => {
 
      // Step 2
     // Send GET request to get post with id=99 (/posts/99)
-    cy.request('GET', 'https://jsonplaceholder.typicode.com/posts/99').then(response => {
+    cy.request('GET', '/posts/99').then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // Post information is correct: userId is 10, id is 99, title and body arent' empty
@@ -34,7 +34,7 @@ describe('API tests', () => {
     // Send GET request to get post with id=150 (/posts/150)
     cy.request({
       method: 'GET',
-      url: 'https://jsonplaceholder.typicode.com/posts/150',
+      url: '/posts/150',
       failOnStatusCode: false
     }).then(response => {
       // Status code is 404
@@ -47,7 +47,7 @@ describe('API tests', () => {
     // Send POST request to create post with userId=1 and random body and random title (/posts)
     const randomTitle = utils.generateRandomString(10);
     const randomBody = utils.generateRandomString(100);
-    cy.request('POST', 'https://jsonplaceholder.typicode.com/posts', {
+    cy.request('POST', '/posts', {
       title: randomTitle,
       body: randomBody,
       userId: 1
@@ -63,7 +63,7 @@ describe('API tests', () => {
 
     // Step 5
     // Send GET request to get users (/users)
-    cy.request('GET', 'https://jsonplaceholder.typicode.com/users').then(response => {
+    cy.request('GET', '/users').then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // The list in response body is JSON
@@ -75,7 +75,7 @@ describe('API tests', () => {
 
     // Step 6
     // Send GET request to get user with id=5 (/users/5)
-    cy.request('GET', 'https://jsonplaceholder.typicode.com/users/5').then(response => {
+    cy.request('GET', '/users/5').then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // User data matches with user data in the previous step
