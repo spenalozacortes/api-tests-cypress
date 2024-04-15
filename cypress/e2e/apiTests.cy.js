@@ -72,5 +72,14 @@ describe('API tests', () => {
       const actualUser = response.body.filter(user => user.id === 5);
       expect(actualUser).to.deep.eq(expectedUser);
     });
+
+    // Step 6
+    // Send GET request to get user with id=5 (/users/5)
+    cy.request('GET', 'https://jsonplaceholder.typicode.com/users/5').then(response => {
+      // Status code is 200
+      expect(response.status).to.eq(200);
+      // User data matches with user data in the previous step
+      expect(response.body).to.deep.eq(expectedUser[0]);
+    });
   });
 });
