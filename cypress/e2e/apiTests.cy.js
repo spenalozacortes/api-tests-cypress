@@ -1,6 +1,7 @@
 /// <reference types = "Cypress" />
 
 import { endpoints } from "../support/apiEndpoints";
+import { httpStatus } from "../support/httpStatus";
 import { utils } from "../support/utils";
 import expectedUser from "../fixtures/apiResponseUser5.json";
 import testdata from "../fixtures/testdata.json";
@@ -11,7 +12,7 @@ describe('API tests', () => {
     // Send GET request to get all posts (/posts)
     cy.request('GET', endpoints.POSTS).then(response => {
       // Status code is 200
-      expect(response.status).to.eq(200);
+      expect(response.status).to.eq(httpStatus.OK);
       // The list in response body is JSON
       expect(response.headers['content-type']).to.include('application/json');
       // Posts are sorted in ascending order (by id)
@@ -24,7 +25,7 @@ describe('API tests', () => {
     // Send GET request to get post with id=99 (/posts/99)
     cy.request('GET', endpoints.POST_BY_ID(99)).then(response => {
       // Status code is 200
-      expect(response.status).to.eq(200);
+      expect(response.status).to.eq(httpStatus.OK);
       // Post information is correct: userId is 10, id is 99, title and body arent' empty
       expect(response.body.userId).to.eq(10);
       expect(response.body.id).to.eq(99);
@@ -40,7 +41,7 @@ describe('API tests', () => {
       failOnStatusCode: false
     }).then(response => {
       // Status code is 404
-      expect(response.status).to.eq(404);
+      expect(response.status).to.eq(httpStatus.NOT_FOUND);
       // Response body is empty
       expect(response.body).to.be.empty;
     });
@@ -55,7 +56,7 @@ describe('API tests', () => {
       userId: 1
     }).then(response => {
       // Status code is 201
-      expect(response.status).to.eq(201);
+      expect(response.status).to.eq(httpStatus.CREATED);
       // Post information is correct: title, body, userId match data from request, id is present in response
       expect(response.body.title).to.eq(randomTitle);
       expect(response.body.body).to.eq(randomBody);
@@ -67,7 +68,7 @@ describe('API tests', () => {
     // Send GET request to get users (/users)
     cy.request('GET', endpoints.USERS).then(response => {
       // Status code is 200
-      expect(response.status).to.eq(200);
+      expect(response.status).to.eq(httpStatus.OK);
       // The list in response body is JSON
       expect(response.headers['content-type']).to.include('application/json');
       // User (id=5) equals to data
@@ -79,7 +80,7 @@ describe('API tests', () => {
     // Send GET request to get user with id=5 (/users/5)
     cy.request('GET', endpoints.USER_BY_ID(5)).then(response => {
       // Status code is 200
-      expect(response.status).to.eq(200);
+      expect(response.status).to.eq(httpStatus.OK);
       // User data matches with user data in the previous step
       expect(response.body).to.deep.eq(expectedUser);
     });
