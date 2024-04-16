@@ -1,3 +1,10 @@
 {
-    
+    "contentType": "application/json",
+    "validPostId": 99,
+    "userIdGet": 10,
+    "invalidPostId": 150,
+    "titleLength": 15,
+    "bodyLength": 200,
+    "userIdPost": 1,
+    "userId": 5
 }
