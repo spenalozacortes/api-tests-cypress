@@ -1,13 +1,15 @@
 /// <reference types = "Cypress" />
 
+import { endpoints } from "../support/apiEndpoints";
 import { utils } from "../support/utils";
 import expectedUser from "../fixtures/apiResponseUser5.json";
+import testdata from "../fixtures/testdata.json";
 
 describe('API tests', () => {
   it('passes', () => {
     // Step 1
     // Send GET request to get all posts (/posts)
-    cy.request('GET', '/posts').then(response => {
+    cy.request('GET', endpoints.POSTS).then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // The list in response body is JSON
@@ -20,7 +22,7 @@ describe('API tests', () => {
 
      // Step 2
     // Send GET request to get post with id=99 (/posts/99)
-    cy.request('GET', '/posts/99').then(response => {
+    cy.request('GET', endpoints.POST_BY_ID(99)).then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // Post information is correct: userId is 10, id is 99, title and body arent' empty
@@ -34,7 +36,7 @@ describe('API tests', () => {
     // Send GET request to get post with id=150 (/posts/150)
     cy.request({
       method: 'GET',
-      url: '/posts/150',
+      url: endpoints.POST_BY_ID(150),
       failOnStatusCode: false
     }).then(response => {
       // Status code is 404
@@ -47,7 +49,7 @@ describe('API tests', () => {
     // Send POST request to create post with userId=1 and random body and random title (/posts)
     const randomTitle = utils.generateRandomString(10);
     const randomBody = utils.generateRandomString(100);
-    cy.request('POST', '/posts', {
+    cy.request('POST', endpoints.POSTS, {
       title: randomTitle,
       body: randomBody,
       userId: 1
@@ -63,23 +65,23 @@ describe('API tests', () => {
 
     // Step 5
     // Send GET request to get users (/users)
-    cy.request('GET', '/users').then(response => {
+    cy.request('GET', endpoints.USERS).then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // The list in response body is JSON
       expect(response.headers['content-type']).to.include('application/json');
       // User (id=5) equals to data
-      const actualUser = response.body.filter(user => user.id === 5);
+      const actualUser = response.body.find(user => user.id === 5);
       expect(actualUser).to.deep.eq(expectedUser);
     });
 
     // Step 6
     // Send GET request to get user with id=5 (/users/5)
-    cy.request('GET', '/users/5').then(response => {
+    cy.request('GET', endpoints.USER_BY_ID(5)).then(response => {
       // Status code is 200
       expect(response.status).to.eq(200);
       // User data matches with user data in the previous step
-      expect(response.body).to.deep.eq(expectedUser[0]);
+      expect(response.body).to.deep.eq(expectedUser);
     });
   });
 });
