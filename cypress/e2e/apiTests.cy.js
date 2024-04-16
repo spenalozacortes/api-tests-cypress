@@ -3,6 +3,7 @@
 import { endpoints } from "../support/apiEndpoints";
 import { httpStatus } from "../support/httpStatus";
 import { stringUtils } from "../support/StringUtils";
+import { sortUtils } from "../support/SortUtils";
 import expectedUser from "../fixtures/apiResponseUser5.json";
 import testdata from "../fixtures/testdata.json";
 
@@ -12,7 +13,7 @@ describe('API tests', () => {
       expect(response.status).to.eq(httpStatus.OK);
       expect(response.headers['content-type']).to.include(testdata.contentType);
       const ids = response.body.map(post => post.id);
-      const sortedIds = [...ids].sort((a, b) => a - b);
+      const sortedIds = sortUtils.sortAscending(ids);
       expect(ids).to.have.ordered.members(sortedIds);
     });
 
