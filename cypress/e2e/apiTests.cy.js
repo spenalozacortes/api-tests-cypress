@@ -2,7 +2,7 @@
 
 import { endpoints } from "../support/apiEndpoints";
 import { httpStatus } from "../support/httpStatus";
-import { utils } from "../support/utils";
+import { stringUtils } from "../support/StringUtils";
 import expectedUser from "../fixtures/apiResponseUser5.json";
 import testdata from "../fixtures/testdata.json";
 
@@ -32,8 +32,8 @@ describe('API tests', () => {
       expect(response.body).to.be.empty;
     });
 
-    const randomTitle = utils.generateRandomString(testdata.titleLength);
-    const randomBody = utils.generateRandomString(testdata.bodyLength);
+    const randomTitle = stringUtils.generateRandomString(testdata.titleLength);
+    const randomBody = stringUtils.generateRandomString(testdata.bodyLength);
     cy.request('POST', endpoints.POSTS, {
       title: randomTitle,
       body: randomBody,
