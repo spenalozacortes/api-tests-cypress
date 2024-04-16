@@ -2,6 +2,7 @@
 
 import { endpoints } from "../support/apiEndpoints";
 import { httpStatus } from "../support/httpStatus";
+import { contentTypes } from "../support/contentTypes";
 import { stringUtils } from "../support/StringUtils";
 import { sortUtils } from "../support/SortUtils";
 import expectedUser from "../fixtures/apiResponseUser5.json";
@@ -11,7 +12,7 @@ describe('API tests', () => {
   it('passes', () => {
     cy.request('GET', endpoints.POSTS).then(response => {
       expect(response.status).to.eq(httpStatus.OK);
-      expect(response.headers['content-type']).to.include(testdata.contentType);
+      expect(response.headers['content-type']).to.include(contentTypes.JSON);
       const ids = response.body.map(post => post.id);
       const sortedIds = sortUtils.sortAscending(ids);
       expect(ids).to.have.ordered.members(sortedIds);
@@ -49,7 +50,7 @@ describe('API tests', () => {
 
     cy.request('GET', endpoints.USERS).then(response => {
       expect(response.status).to.eq(httpStatus.OK);
-      expect(response.headers['content-type']).to.include(testdata.contentType);
+      expect(response.headers['content-type']).to.include(contentTypes.JSON);
       const actualUser = response.body.find(user => user.id === testdata.userId);
       expect(actualUser).to.deep.eq(expectedUser);
     });
